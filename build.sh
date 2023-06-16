@@ -187,3 +187,5 @@ compile_moment() {
     fi
     build_gapps
 }
+
+compile_moment
