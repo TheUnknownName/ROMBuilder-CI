@@ -12,6 +12,7 @@ LDEVICE=$(grep link_device $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LVENDOR=$(grep link_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LKERNEL=$(grep link_kernel $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 get_patches=$(grep patch $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+echo $(pwd)/build_error
 
 #BASE SETUP
 # Setup TG message and build posts
@@ -52,7 +53,8 @@ git_setup() {
     git clone --depth 1 $LDEVICE $DEVICE_TREE
     git clone --depth 1 $LVENDOR $VENDOR_TREE
     git clone --depth 1 $LKERNEL $KERNEL_TREE
-} > git_log.txt
+    printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog ~/kernel
+} | tee -a $(pwd)/build_error
 
 apply_patch() {
     eval $get_patches
