@@ -41,9 +41,9 @@ git_setup() {
     git config --global user.name $GIT_USER
     git config --global user.email $GIT_EMAIL
     
-    git clone $LDEVICE device/$DEVICE/$MODEL
-    git clone $LVENDOR vendor/$DEVICE
-    git clone $LKERNEL kernel/$DEVICE/$MODEL
+    git clone --depth 1 $LDEVICE device/$DEVICE/$MODEL
+    git clone --depth 1 $LVENDOR vendor/$DEVICE
+    git clone --depth 1 $LKERNEL kernel/$DEVICE/$MODEL
     eval $get_patches
 } > git_log.txt
 
@@ -170,9 +170,8 @@ compile_moment() {
     build_dir
     git_setup
     lazy_build_post_var
-    ssh_authenticate
+    #ssh_authenticate
     time_sec SYNC_START
-    rom
     build_configuration
     time_sec SYNC_END
     time_diff SDIFF SYNC_START SYNC_END
