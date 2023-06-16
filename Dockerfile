@@ -5,7 +5,13 @@ ENV DEBIAN_FRONTEND noninteractive
 WORKDIR /tmp
 
 RUN apt-get -yqq update \
-    && apt-get install --no-install-recommends -yqq adb autoconf automake axel bc bison build-essential clang cmake curl expat expect fastboot flex g++ g++-multilib gawk gcc gcc-multilib gcc-10 g++-10 g++-10-multilib git gnupg gperf htop imagemagick locales libncurses5 lib32ncurses5-dev lib32z1-dev libtinfo5 libc6-dev libcap-dev libexpat1-dev libgmp-dev '^liblz4-.*' '^liblzma.*' libmpc-dev libmpfr-dev libncurses5-dev libnl-route-3-dev libprotobuf-dev libsdl1.2-dev libssl-dev libtool libxml-simple-perl libxml2 libxml2-utils lld lsb-core lzip '^lzma.*' lzop maven nano ncftp ncurses-dev openssh-server patch patchelf pkg-config pngcrush pngquant protobuf-compiler python2.7 python3-apt python-all-dev python-is-python3 re2c rsync schedtool screen squashfs-tools subversion sudo tar texinfo tmate tzdata unzip w3m wget xsltproc zip zlib1g-dev zram-config \
+    && apt install -yqq upgrade 
+RUN  apt install -y apt-utils || abort "Setup Failed!" 
+RUN apt install -y git make bc bison openssl || abort "Setup Failed!"
+RUN apt install -y device-tree-compiler ca-certificates python3 python2 xz-utils unace make build-essential libncurses-dev bison flex libssl-dev libelf-dev openssl bc curl unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract device-tree-compiler liblzma-dev python3-pip brotli liblz4-tool axel gawk aria2 detox cpio rename liblz4-dev jq || abort "Setup Failed!"
+RUN pip install cython backports.lzma extract-dtb protobuf==3.20.0 docopt zstandard twrpdtgen future requests humanize clint lz4 pycryptodome pycryptodomex || abort "Setup Failed!"
+RUn pip install git+https://github.com/sebaubuntu-python/aospdtgen || abort "Setup Failed!"
+RUN apt-get install --no-install-recommends -yqq adb autoconf automake axel bc bison build-essential clang cmake curl expat expect fastboot flex g++ g++-multilib gawk gcc gcc-multilib gcc-10 g++-10 g++-10-multilib git gnupg gperf htop imagemagick locales libncurses5 lib32ncurses5-dev lib32z1-dev libtinfo5 libc6-dev libcap-dev libexpat1-dev libgmp-dev '^liblz4-.*' '^liblzma.*' libmpc-dev libmpfr-dev libncurses5-dev libnl-route-3-dev libprotobuf-dev libsdl1.2-dev libssl-dev libtool libxml-simple-perl libxml2 libxml2-utils lld lsb-core lzip '^lzma.*' lzop maven nano ncftp ncurses-dev openssh-server patch patchelf pkg-config pngcrush pngquant protobuf-compiler python2.7 python3-apt python-all-dev python-is-python3 re2c rsync schedtool screen squashfs-tools subversion sudo tar texinfo tmate tzdata unzip w3m wget xsltproc zip zlib1g-dev zram-config \
     && curl --create-dirs -L -o /usr/local/bin/repo -O -L https://raw.githubusercontent.com/geopd/git-repo/main/repo \
     && chmod a+rx /usr/local/bin/repo \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
