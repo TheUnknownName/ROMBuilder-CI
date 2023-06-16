@@ -93,7 +93,7 @@ telegram_post_sync() {
 tree_path() {
     # Device,vendor & kernel Tree paths
     DEVICE_TREE=device/$DEVICE/$MODEL
-    VENDOR_TREE=vendor/$DEVICE
+    VENDOR_TREE=vendor/$DEVICE/$MODEL
     KERNEL_TREE=kernel/$DEVICE/$MODEL
 }
 
