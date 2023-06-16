@@ -190,6 +190,6 @@ compile_moment() {
         telegram_post
     fi
     build_gapps
-} 2>&1 | tee $(pwd)/out/build_error
+} 
 
 compile_moment
