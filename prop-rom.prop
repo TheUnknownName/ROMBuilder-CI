@@ -4,7 +4,7 @@ git_email=anjaytun2006@gmail.com
 
 #INFROMATION DEVICE
 device_model=even
-vendor=realme
+name_vendor=realme
 
 #INFORMATION LINK DEVICE
 link_device= -b oss-wip https://github.com/KharaMe-devices/device_oplus_even.git

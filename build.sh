@@ -4,7 +4,7 @@ GIT_USER=$(grep git_user $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 GIT_EMAIL=$(grep git_email $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 MANIFEST=$(grep MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 BRANCH=$(grep BRANCH $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-DEVICE=$(grep vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+DEVICE=$(grep name_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 MODEL=$(grep device_model $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 PACKAGE=$(grep PACKAGE $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 BUILD_TYPE=$(grep BUILD_TYPE $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
@@ -34,6 +34,14 @@ telegram_build() {
 build_dir() {
     mkdir -p /tmp/rom
     cd /tmp/rom || exit
+}
+
+
+tree_path() {
+    # Device,vendor & kernel Tree paths
+    DEVICE_TREE=device/$DEVICE/$MODEL
+    VENDOR_TREE=vendor/$DEVICE/$MODEL
+    KERNEL_TREE=kernel/$DEVICE/$MODEL
 }
 
 # Git configuration values
@@ -88,13 +96,6 @@ telegram_post_sync() {
 	*🌟 $NAME Build Triggered 🌟*
 	*Date:* \`$(date +"%d-%m-%Y %T")\`
     *✅ Sync finished after $((SDIFF / 60)) minute(s) and $((SDIFF % 60)) seconds*"  &> /dev/null
-}
-
-tree_path() {
-    # Device,vendor & kernel Tree paths
-    DEVICE_TREE=device/$DEVICE/$MODEL
-    VENDOR_TREE=vendor/$DEVICE/$MODEL
-    KERNEL_TREE=kernel/$DEVICE/$MODEL
 }
 
 # Build commands for rom
