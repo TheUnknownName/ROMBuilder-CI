@@ -14,4 +14,5 @@ task:
     memory: 32G
   
   build_script:
+    - wget https://github.com/TheUnknownName/ROMBuilder-CI/raw/main/prop-rom.prop
     - bash build.sh ${CIRRUS_WORKING_DIR}/prop-rom.prop
