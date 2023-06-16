@@ -41,9 +41,9 @@ git_setup() {
     git config --global user.name $GIT_USER
     git config --global user.email $GIT_EMAIL
     
-    git clone --depth 1 $LDEVICE device/$DEVICE/$MODEL
-    git clone --depth 1 $LVENDOR vendor/$DEVICE
-    git clone --depth 1 $LKERNEL kernel/$DEVICE/$MODEL
+    git clone --depth 1 $LDEVICE $DEVICE_TREE
+    git clone --depth 1 $LVENDOR $VENDOR_TREE
+    git clone --depth 1 $LKERNEL $KERNEL_TREE
     eval $get_patches
 } > git_log.txt
 
@@ -100,7 +100,6 @@ tree_path() {
 # Build commands for rom
 build_command() {
     source build/envsetup.sh
-    tree_path
     lunch $(basename -s .mk $(find $DEVICE_TREE -maxdepth 1 -name "*$DEVICE*.mk"))-${BUILD_TYPE}
     m ${PACKAGE} -j 20
 }
@@ -168,6 +167,7 @@ telegram_post() {
 
 compile_moment() {
     build_dir
+    tree_path
     git_setup
     lazy_build_post_var
     #ssh_authenticate
