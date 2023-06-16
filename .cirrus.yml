@@ -1,3 +1,8 @@
+env:
+  CIRRUS_WORKING_DIR: "/tmp/ci"
+  CHATID: -1001857624835
+  BOTTOKEN: ENCRYPTED[4dac72cdb9e5e9df6784c2b1221c8fc0271a27808289d4ed96f2b39df2792d4e99b6bfc71359222f1e4be4f3714c13a3]
+
 task:
   name: "build rom CI by TheUnknownName06@${CIRRUS_USER}:${CIRRUS_BRANCH}"
   # skip: $CIRRUS_BRANCH == 'main'
@@ -7,3 +12,6 @@ task:
     dockerfile: Dockerfile
     cpu: 8
     memory: 32G
+  
+  build_script:
+    - bash build.sh ${CIRRUS_WORKING_DIR}/prop-rom.prop
