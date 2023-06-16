@@ -1,17 +1,17 @@
 #!/bin/bash
 NAME_SRC_FILE="$1"
-GIT_USER="$(grep git_user $NAME_SRC_FILE | cut -f2 -d"=" )"
-GIT_EMAIL="$(grep git_email $NAME_SRC_FILE | cut -f2 -d"=" )"
-MANIFEST="$(grep MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" )"
-BRANCH="$(grep BRANCH $NAME_SRC_FILE | cut -f2 -d"=" )"
-DEVICE="$(grep vendor $NAME_SRC_FILE | cut -f2 -d"=" )"
-MODEL="$(grep device_model $NAME_SRC_FILE | cut -f2 -d"=" )"
-PACKAGE="$(grep PACKAGE $NAME_SRC_FILE | cut -f2 -d"=" )"
-BUILD_TYPE="$(grep BUILD_TYPE $NAME_SRC_FILE | cut -f2 -d"=" )"
-LDEVICE="$(grep link_device $NAME_SRC_FILE | cut -f2 -d"=" )"
-LVENDOR="$(grep link_vendor $NAME_SRC_FILE | cut -f2 -d"=" )"
-LKERNEL="$(grep link_kernel $NAME_SRC_FILE | cut -f2 -d"=" )"
-get_patches="$(grep patch $NAME_SRC_FILE | cut -f2 -d"=" )"
+GIT_USER=$(grep git_user $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+GIT_EMAIL=$(grep git_email $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+MANIFEST=$(grep MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+BRANCH=$(grep BRANCH $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+DEVICE=$(grep vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+MODEL=$(grep device_model $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+PACKAGE=$(grep PACKAGE $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+BUILD_TYPE=$(grep BUILD_TYPE $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+LDEVICE=$(grep link_device $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+LVENDOR=$(grep link_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+LKERNEL=$(grep link_kernel $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+get_patches=$(grep patch $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 
 #BASE SETUP
 # Setup TG message and build posts
