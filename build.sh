@@ -52,8 +52,11 @@ git_setup() {
     git clone --depth 1 $LDEVICE $DEVICE_TREE
     git clone --depth 1 $LVENDOR $VENDOR_TREE
     git clone --depth 1 $LKERNEL $KERNEL_TREE
-    eval $get_patches
 } > git_log.txt
+
+apply_patch() {
+    eval $get_patches
+}
 
 # Build post-gen variables (optional)
 lazy_build_post_var() {
@@ -174,6 +177,7 @@ compile_moment() {
     #ssh_authenticate
     time_sec SYNC_START
     build_configuration
+    apply_patch
     time_sec SYNC_END
     time_diff SDIFF SYNC_START SYNC_END
     telegram_post_sync
@@ -186,6 +190,6 @@ compile_moment() {
         telegram_post
     fi
     build_gapps
-}
+} 2>&1 | tee -a $(pwd)/out/build_error
 
 compile_moment
