@@ -87,8 +87,8 @@ time_sec() {
 
 # Repo sync and additional configurations
 build_configuration() {
-    repo init --depth=1  -u $MANIFEST  -b $BRANCH 
-    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j13
+    repo init --depth=1 --no-repo-verify -u $MANIFEST  -b $BRANCH -g default,-mips,-darwin,-notdefault
+    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune  --force-sync -j13
     printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog /tmp/ci
 }
 
@@ -106,7 +106,6 @@ telegram_post_sync() {
 # Build commands for rom
 build_command() {
     source build/envsetup.sh
-    brunch $MODEL $BUILD_TYPE
     lunch $(basename -s .mk $(find $DEVICE_TREE -maxdepth 1 -name "*$DEVICE*.mk"))-${BUILD_TYPE}
     m ${PACKAGE} -j 20
 }
