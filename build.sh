@@ -54,7 +54,7 @@ git_setup() {
     git clone --depth 1 $LVENDOR $VENDOR_TREE
     git clone --depth 1 $LKERNEL $KERNEL_TREE
     printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog ~/kernel
-} | tee -a $(pwd)/build_error
+} 
 
 apply_patch() {
     eval $get_patches

@@ -7,7 +7,7 @@ task:
   name: "build rom CI by TheUnknownName06@${CIRRUS_USER}:${CIRRUS_BRANCH}"
   # skip: $CIRRUS_BRANCH == 'main'
   # auto_cancellation: $CIRRUS_BRANCH == 'autocancel'
-  timeout_in: 120m
+  timeout_in: 300m
   container:
     dockerfile: Dockerfile
     cpu: 8
