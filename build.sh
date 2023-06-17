@@ -53,8 +53,7 @@ git_setup() {
     git clone --depth 1 $LDEVICE $DEVICE_TREE
     git clone --depth 1 $LVENDOR $VENDOR_TREE
     git clone --depth 1 $LKERNEL $KERNEL_TREE
-    printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog ~/kernel
-} 
+}
 
 apply_patch() {
     eval $get_patches
@@ -88,8 +87,9 @@ time_sec() {
 
 # Repo sync and additional configurations
 build_configuration() {
-    repo init --depth=1 --no-repo-verify -u $MANIFEST  -b $BRANCH -g default,-mips,-darwin,-notdefault
-    repo sync -c --no-clone-bundle --no-tags --force-sync -j13
+    repo init --depth=1  -u $MANIFEST  -b $BRANCH 
+    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j13
+    printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog /tmp/ci
 }
 
 time_diff() {
@@ -193,6 +193,6 @@ compile_moment() {
         telegram_post
     fi
     build_gapps
-} 
+}
 
 compile_moment
