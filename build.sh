@@ -106,6 +106,7 @@ telegram_post_sync() {
 # Build commands for rom
 build_command() {
     source build/envsetup.sh
+    brunch $MODEL $BUILD_TYPE
     lunch $(basename -s .mk $(find $DEVICE_TREE -maxdepth 1 -name "*$DEVICE*.mk"))-${BUILD_TYPE}
     m ${PACKAGE} -j 20
 }
