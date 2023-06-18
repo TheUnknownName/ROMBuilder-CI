@@ -105,9 +105,9 @@ telegram_post_sync() {
 
 # Build commands for rom
 build_command() {
-    source build/envsetup.sh
-    lunch $(basename -s .mk $(find $DEVICE_TREE -maxdepth 1 -name "*$DEVICE*.mk"))-${BUILD_TYPE}
-    m ${PACKAGE} -j 20
+    bash build/envsetup.sh
+    lunch miku_[${MODEL}]-[${ROM_TYPE}]
+    make diva
 }
 
 # Sorting final zip ( commonized considering ota zips, .md5sum etc with similiar names  in diff roms)
