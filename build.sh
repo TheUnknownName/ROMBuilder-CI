@@ -1,5 +1,6 @@
 #!/bin/bash
 NAME_SRC_FILE="$1"
+dir_work=${0%/*}/tmp/rom
 GIT_USER=$(grep git_user $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 GIT_EMAIL=$(grep git_email $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 MANIFEST=$(grep name_MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
@@ -33,8 +34,8 @@ telegram_build() {
 
 # Setup build dir
 build_dir() {
-    mkdir -p /tmp/rom
-    cd /tmp/rom || exit
+    mkdir -p $dir_work
+    cd $dir_work || exit
 }
 
 
@@ -89,7 +90,7 @@ time_sec() {
 build_configuration() {
     repo init --depth=1 --no-repo-verify -u $MANIFEST  -b $BRANCH -g default,-mips,-darwin,-notdefault
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune  --force-sync -j13
-    printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog /tmp/ci
+    printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog $dir_work
 }
 
 time_diff() {
@@ -105,7 +106,7 @@ telegram_post_sync() {
 
 # Build commands for rom
 build_command() {
-    bash build/envsetup.sh
+    source build/envsetup.sh
     lunch miku_[${MODEL}]-[${ROM_TYPE}]
     make diva
 }

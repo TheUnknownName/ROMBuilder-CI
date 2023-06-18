@@ -5,7 +5,7 @@ env:
 
 task:
   name: "build rom CI by TheUnknownName06@${CIRRUS_USER}:${CIRRUS_BRANCH}"
-  # skip: $CIRRUS_BRANCH == 'main'
+  #skip: $CIRRUS_BRANCH == 'main'
   # auto_cancellation: $CIRRUS_BRANCH == 'autocancel'
   timeout_in: 300m
   container:
