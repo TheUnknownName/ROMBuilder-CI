@@ -107,7 +107,7 @@ telegram_post_sync() {
 # Build commands for rom
 build_command() {
     source build/envsetup.sh
-    lunch miku_[${MODEL}]-[${ROM_TYPE}]
+    lunch aosp_${MODEL}-${BUILD_TYPE}
     make diva
 }
 
