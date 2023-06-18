@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME_SRC_FILE="$1"
-dir_work=${0%/*}/tmp/rom
+dir_work=/tmp/rom
 GIT_USER=$(grep git_user $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 GIT_EMAIL=$(grep git_email $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 MANIFEST=$(grep name_MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
