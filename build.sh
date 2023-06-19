@@ -1,6 +1,7 @@
 #!/bin/bash
 NAME_SRC_FILE="$1"
 dir_work=/tmp/rom
+log_build=/tmp/ci/build_error
 GIT_USER=$(grep git_user $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 GIT_EMAIL=$(grep git_email $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 MANIFEST=$(grep name_MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
@@ -165,8 +166,8 @@ telegram_post() {
     Build SUCCESFULL to compile after $(($BDIFF / 3600)) hour(s) and $(($BDIFF % 3600 / 60)) minute(s) and $(($BDIFF % 60)) seconds*
         _Date:  $(date +"%d-%m-%Y %T")_"
     else
-        echo "CHECK BUILD LOG" >> $(pwd)/out/build_error
-        ERROR_LOG=$(pwd)/out/build_error
+        echo "CHECK BUILD LOG" >> ${log_build}
+        ERROR_LOG=${log_build}
         telegram_build ${ERROR_LOG} "
 	*❌ Build failed to compile after $(($BDIFF / 3600)) hour(s) and $(($BDIFF % 3600 / 60)) minute(s) and $(($BDIFF % 60)) seconds*
         _Date:  $(date +"%d-%m-%Y %T")_"
@@ -174,26 +175,26 @@ telegram_post() {
 }
 
 compile_moment() {
-    build_dir 2>&1 | tee $(pwd)/out/build_error
-    tree_path 2>&1 | tee -a $(pwd)/out/build_error
-    git_setup 2>&1 | tee -a $(pwd)/out/build_error
-    lazy_build_post_var 2>&1 | tee -a $(pwd)/out/build_error
-    #ssh_authenticate 2>&1 | tee -a $(pwd)/out/build_error
-    time_sec SYNC_START 2>&1 | tee -a $(pwd)/out/build_error
-    build_configuration 2>&1 | tee -a $(pwd)/out/build_error
-    apply_patch 2>&1 | tee -a $(pwd)/out/build_error
-    time_sec SYNC_END 2>&1 | tee -a $(pwd)/out/build_error
-    time_diff SDIFF SYNC_START SYNC_END 2>&1 | tee -a $(pwd)/out/build_error
-    telegram_post_sync 2>&1 | tee -a $(pwd)/out/build_error
-    time_sec BUILD_START 2>&1 | tee -a $(pwd)/out/build_error
-    build_command 2>&1 | tee -a $(pwd)/out/build_error
-    time_sec BUILD_END 2>&1 | tee -a $(pwd)/out/build_error
-    time_diff BDIFF BUILD_START BUILD_END 2>&1 | tee -a $(pwd)/out/build_error
-    compiled_zip 2>&1 | tee -a $(pwd)/out/build_error
+    build_dir # 2>&1 | tee ${log_build}
+    tree_path # 2>&1 | tee -a ${log_build}
+    git_setup # 2>&1 | tee -a ${log_build}
+    lazy_build_post_var # 2>&1 | tee -a ${log_build}
+    #ssh_authenticate # 2>&1 | tee -a ${log_build}
+    time_sec SYNC_START # 2>&1 | tee -a ${log_build}
+    build_configuration # 2>&1 | tee -a ${log_build}
+    apply_patch # 2>&1 | tee -a ${log_build}
+    time_sec SYNC_END # 2>&1 | tee -a ${log_build}
+    time_diff SDIFF SYNC_START SYNC_END # 2>&1 | tee -a ${log_build}
+    telegram_post_sync # 2>&1 | tee -a ${log_build}
+    time_sec BUILD_START # 2>&1 | tee -a ${log_build}
+    build_command # 2>&1 | tee -a ${log_build}
+    time_sec BUILD_END # 2>&1 | tee -a ${log_build}
+    time_diff BDIFF BUILD_START BUILD_END # 2>&1 | tee -a ${log_build}
+    compiled_zip # 2>&1 | tee -a ${log_build}
     if [ ! $INCLUDE_GAPPS = true ]; then
-        telegram_post 2>&1 | tee -a $(pwd)/out/build_error
+        telegram_post # 2>&1 | tee -a ${log_build}
     fi
-    build_gapps 2>&1 | tee -a $(pwd)/out/build_error
+    build_gapps # 2>&1 | tee -a ${log_build}
 }
 
 compile_moment
