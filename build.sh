@@ -22,7 +22,7 @@ echo $(pwd)/build_error
 telegram_message() {
     curl -s -X POST "https://api.telegram.org/bot${BOTTOKEN}/sendMessage" -d chat_id="${CHATID}" \
     -d "parse_mode=Markdown" \
-    -d text="$1" 2>&1 | tee ${log_build}
+    -d text="$1" 2>&1 | tee -a ${log_build}
 }
 
 telegram_build() {
@@ -30,7 +30,7 @@ telegram_build() {
     -F chat_id="${CHATID}" \
     -F "disable_web_page_preview=true" \
     -F "parse_mode=Markdown" \
-    -F caption="$2" 2>&1 | tee ${log_build}
+    -F caption="$2" 2>&1 | tee -a ${log_build}
 }
 
 
@@ -54,12 +54,12 @@ git_setup() {
     git config --global user.email $GIT_EMAIL
     
     git clone --depth 1 $LDEVICE $DEVICE_TREE 2>&1 | tee ${log_build}
-    git clone --depth 1 $LVENDOR $VENDOR_TREE 2>&1 | tee ${log_build}
-    git clone --depth 1 $LKERNEL $KERNEL_TREE 2>&1 | tee ${log_build}
+    git clone --depth 1 $LVENDOR $VENDOR_TREE 2>&1 | tee -a ${log_build}
+    git clone --depth 1 $LKERNEL $KERNEL_TREE 2>&1 | tee -a ${log_build}
 }
 
 apply_patch() {
-    eval $get_patches 2>&1 | tee ${log_build}
+    eval $get_patches 2>&1 | tee -a ${log_build}
 }
 
 # Build post-gen variables (optional)
@@ -90,8 +90,8 @@ time_sec() {
 
 # Repo sync and additional configurations
 build_configuration() {
-    repo init --depth 1 --no-repo-verify -u $MANIFEST  -b $BRANCH -g default,-mips,-darwin,-notdefault 2>&1 | tee ${log_build}
-    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune  --force-sync -j$(nproc --all) 2>&1 | tee ${log_build}
+    repo init --depth 1 --no-repo-verify -u $MANIFEST  -b $BRANCH -g default,-mips,-darwin,-notdefault 2>&1 | tee -a ${log_build}
+    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune  --force-sync -j$(nproc --all) 2>&1 | tee -a ${log_build}
     {
     echo ""
     echo ""
@@ -101,7 +101,7 @@ build_configuration() {
     echo ""
     echo ""
     echo ""
-    } 2>&1 | tee ${log_build}
+    } 2>&1 | tee -a ${log_build}
 }
 
 time_diff() {
@@ -112,14 +112,14 @@ telegram_post_sync() {
     telegram_message "
 	*🌟 $NAME Build Triggered 🌟*
 	*Date:* \`$(date +"%d-%m-%Y %T")\`
-    *✅ Sync finished after $((SDIFF / 60)) minute(s) and $((SDIFF % 60)) seconds*"  2>&1 | tee ${log_build}
+    *✅ Sync finished after $((SDIFF / 60)) minute(s) and $((SDIFF % 60)) seconds*"  2>&1 | tee -a ${log_build}
 }
 
 # Build commands for rom
 build_command() {
     source build/envsetup.sh
-    lunch ${lunch_type_rom}_${MODEL}-${BUILD_TYPE} 2>&1 | tee ${log_build}
-    eval $PACKAGE 2>&1 | tee ${log_build}
+    lunch ${lunch_type_rom}_${MODEL}-${BUILD_TYPE} 2>&1 | tee -a ${log_build}
+    eval $PACKAGE 2>&1 | tee -a ${log_build}
 }
 
 # Sorting final zip ( commonized considering ota zips, .md5sum etc with similiar names  in diff roms)
@@ -130,7 +130,7 @@ compiled_zip() {
     ZIPNAME=$(basename ${ZIP})
     ZIPSIZE=$(du -sh ${ZIP} |  awk '{print $1}')
     MD5CHECK=$(md5sum ${ZIP} | cut -d' ' -f1)
-    echo "${ZIP}" 2>&1 | tee ${log_build}
+    echo "${ZIP}" 2>&1 | tee -a ${log_build}
     post+=("${ZIP}") && post+=("${ZIPNAME}") && post+=("${ZIPSIZE}") && post+=("${MD5CHECK}")
 }
 
@@ -138,7 +138,7 @@ compiled_zip() {
 commit_sha() {
     for repo in ${DEVICE_TREE} ${VENDOR_TREE} ${KERNEL_TREE}
     do
-        printf "[$(echo $repo | cut -d'/' -f1 )/$(git -C ./$repo/.git rev-parse --short=10 HEAD)]" 2>&1 | tee ${log_build}
+        printf "[$(echo $repo | cut -d'/' -f1 )/$(git -C ./$repo/.git rev-parse --short=10 HEAD)]" 2>&1 | tee -a ${log_build}
     done
 }
 
