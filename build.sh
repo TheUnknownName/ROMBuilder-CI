@@ -7,7 +7,8 @@ MANIFEST=$(grep name_MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 BRANCH=$(grep name_BRANCH $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 DEVICE=$(grep name_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 MODEL=$(grep device_model $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-PACKAGE=$(grep name_PACKAGE $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+lunch_type_rom=$(grep name_lunch_type $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+PACKAGE=$(grep build_PACKAGE_command $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 BUILD_TYPE=$(grep name_BUILD_TYPE $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LDEVICE=$(grep link_device $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LVENDOR=$(grep link_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
@@ -106,9 +107,9 @@ telegram_post_sync() {
 
 # Build commands for rom
 build_command() {
-    source build/envsetup.sh
-    lunch aosp_${MODEL}-${BUILD_TYPE}
-    make $PACKAGE -j$(nproc --all)
+    bash build/envsetup.sh
+    lunch ${lunch_type_rom}_${MODEL}-${BUILD_TYPE}
+    eval $PACKAGE
 }
 
 # Sorting final zip ( commonized considering ota zips, .md5sum etc with similiar names  in diff roms)
@@ -173,26 +174,26 @@ telegram_post() {
 }
 
 compile_moment() {
-    build_dir
-    tree_path
-    git_setup
-    lazy_build_post_var
-    #ssh_authenticate
-    time_sec SYNC_START
-    build_configuration
-    apply_patch
-    time_sec SYNC_END
-    time_diff SDIFF SYNC_START SYNC_END
-    telegram_post_sync
-    time_sec BUILD_START
-    build_command
-    time_sec BUILD_END
-    time_diff BDIFF BUILD_START BUILD_END
-    compiled_zip
+    build_dir 2>&1 | tee $(pwd)/out/build_error
+    tree_path 2>&1 | tee -a $(pwd)/out/build_error
+    git_setup 2>&1 | tee -a $(pwd)/out/build_error
+    lazy_build_post_var 2>&1 | tee -a $(pwd)/out/build_error
+    #ssh_authenticate 2>&1 | tee -a $(pwd)/out/build_error
+    time_sec SYNC_START 2>&1 | tee -a $(pwd)/out/build_error
+    build_configuration 2>&1 | tee -a $(pwd)/out/build_error
+    apply_patch 2>&1 | tee -a $(pwd)/out/build_error
+    time_sec SYNC_END 2>&1 | tee -a $(pwd)/out/build_error
+    time_diff SDIFF SYNC_START SYNC_END 2>&1 | tee -a $(pwd)/out/build_error
+    telegram_post_sync 2>&1 | tee -a $(pwd)/out/build_error
+    time_sec BUILD_START 2>&1 | tee -a $(pwd)/out/build_error
+    build_command 2>&1 | tee -a $(pwd)/out/build_error
+    time_sec BUILD_END 2>&1 | tee -a $(pwd)/out/build_error
+    time_diff BDIFF BUILD_START BUILD_END 2>&1 | tee -a $(pwd)/out/build_error
+    compiled_zip 2>&1 | tee -a $(pwd)/out/build_error
     if [ ! $INCLUDE_GAPPS = true ]; then
-        telegram_post
+        telegram_post 2>&1 | tee -a $(pwd)/out/build_error
     fi
-    build_gapps
+    build_gapps 2>&1 | tee -a $(pwd)/out/build_error
 }
 
 compile_moment
