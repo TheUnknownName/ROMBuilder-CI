@@ -108,7 +108,7 @@ telegram_post_sync() {
 build_command() {
     source build/envsetup.sh
     lunch aosp_${MODEL}-${BUILD_TYPE}
-    make diva
+    make $PACKAGE -j(nproc --all)
 }
 
 # Sorting final zip ( commonized considering ota zips, .md5sum etc with similiar names  in diff roms)
