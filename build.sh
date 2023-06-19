@@ -91,12 +91,12 @@ time_sec() {
 # Repo sync and additional configurations
 build_configuration() {
     repo init --depth 1 --no-repo-verify -u $MANIFEST  -b $BRANCH -g default,-mips,-darwin,-notdefault 2>&1 | tee -a ${log_build}
-    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune  --force-sync -j$(nproc --all) 2>&1 | tee -a ${log_build}
+    repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all) 2>&1 | tee -a ${log_build}
     {
     echo ""
     echo ""
     echo ""
-    printf "\nFinal Repository kernel Should Look Like...\n" && ls -lRAog $dir_work
+    printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog $dir_work
     echo ""
     echo ""
     echo ""
