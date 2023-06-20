@@ -50,8 +50,6 @@ tree_path() {
 
 # Git configuration values
 git_setup() {
-    git config --global user.name $GIT_USER
-    git config --global user.email $GIT_EMAIL
     
     git clone --depth 1 $LDEVICE $DEVICE_TREE 2>&1 | tee -a ${log_build}
     git clone --depth 1 $LVENDOR $VENDOR_TREE 2>&1 | tee -a ${log_build}
@@ -185,6 +183,8 @@ telegram_post() {
 
 compile_moment() {
     build_dir # 2>&1 | tee ${log_build}
+    git config --global user.name $GIT_USER
+    git config --global user.email $GIT_EMAIL
     tree_path # 2>&1 | tee -a ${log_build}
     build_configuration # 2>&1 | tee -a ${log_build}
     git_setup # 2>&1 | tee -a ${log_build}
