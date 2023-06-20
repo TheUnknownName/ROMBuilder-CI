@@ -53,7 +53,7 @@ git_setup() {
     git config --global user.name $GIT_USER
     git config --global user.email $GIT_EMAIL
     
-    git clone --depth 1 $LDEVICE $DEVICE_TREE 2>&1 | tee ${log_build}
+    git clone --depth 1 $LDEVICE $DEVICE_TREE 2>&1 | tee -a ${log_build}
     git clone --depth 1 $LVENDOR $VENDOR_TREE 2>&1 | tee -a ${log_build}
     git clone --depth 1 $LKERNEL $KERNEL_TREE 2>&1 | tee -a ${log_build}
 }
@@ -90,8 +90,8 @@ time_sec() {
 
 # Repo sync and additional configurations
 build_configuration() {
-    repo init --depth 1 --no-repo-verify -u $MANIFEST  -b $BRANCH -g default,-mips,-darwin,-notdefault 2>&1 | tee -a ${log_build}
-    repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all) 2>&1 | tee -a ${log_build}
+    repo init -u $MANIFEST -b $BRANCH  2>&1 | tee ${log_build}
+    repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle -j$(nproc --all)  2>&1 | tee -a ${log_build}
     {
     echo ""
     echo ""
@@ -186,11 +186,11 @@ telegram_post() {
 compile_moment() {
     build_dir # 2>&1 | tee ${log_build}
     tree_path # 2>&1 | tee -a ${log_build}
+    build_configuration # 2>&1 | tee -a ${log_build}
     git_setup # 2>&1 | tee -a ${log_build}
     lazy_build_post_var # 2>&1 | tee -a ${log_build}
     #ssh_authenticate # 2>&1 | tee -a ${log_build}
     time_sec SYNC_START # 2>&1 | tee -a ${log_build}
-    build_configuration # 2>&1 | tee -a ${log_build}
     apply_patch # 2>&1 | tee -a ${log_build}
     time_sec SYNC_END # 2>&1 | tee -a ${log_build}
     time_diff SDIFF SYNC_START SYNC_END # 2>&1 | tee -a ${log_build}
