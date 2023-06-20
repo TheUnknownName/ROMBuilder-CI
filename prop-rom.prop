@@ -16,7 +16,7 @@ patch=git clone --depth 1 https://github.com/PixelExperience/vendor_aosp vendor/
 
 #ROM INFROMATION
 name_MANIFEST=https://github.com/Miku-UI/manifesto.git
-name_BRANCH=TDA
+name_BRANCH=snowland
 name_lunch_type=miku
 build_PACKAGE_command=make diva
 name_BUILD_TYPE=user
