@@ -4,13 +4,12 @@ dir_work=/tmp/rom
 log_build=/tmp/ci/build_error
 GIT_USER=$(grep git_user $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 GIT_EMAIL=$(grep git_email $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-MANIFEST=$(grep name_MANIFEST $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-BRANCH=$(grep name_BRANCH $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+repo_init_command=$(grep command_repo_init $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+repo_sync_command=$(grep command_repo_sync $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 DEVICE=$(grep name_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 MODEL=$(grep device_model $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-lunch_type_rom=$(grep name_lunch_type $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-PACKAGE=$(grep build_PACKAGE_command $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-BUILD_TYPE=$(grep name_BUILD_TYPE $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+lunch_command=$(grep command_lunch $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
+PACKAGE_command=$(grep build_PACKAGE_command $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LDEVICE=$(grep link_device $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LVENDOR=$(grep link_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LKERNEL=$(grep link_kernel $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
@@ -88,8 +87,8 @@ time_sec() {
 
 # Repo sync and additional configurations
 build_configuration() {
-    repo init --depth 1 -u $MANIFEST -b $BRANCH  2>&1 | tee ${log_build}
-    repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8 2>&1 | tee -a ${log_build}
+    eval $repo_init_command 2>&1 | tee ${log_build}
+    eval $repo_sync_command 2>&1 | tee -a ${log_build}
     {
     neofetch
     echo ""
@@ -100,7 +99,7 @@ build_configuration() {
     echo ""
     echo ""
     echo ""
-    } 2>&1 | tee -a ${log_build}
+    }  2>&1 | tee -a ${log_build}
 }
 
 time_diff() {
@@ -117,8 +116,8 @@ telegram_post_sync() {
 # Build commands for rom
 build_command() {
     source build/envsetup.sh
-    lunch ${lunch_type_rom}_${MODEL}-${BUILD_TYPE} 2>&1 | tee -a ${log_build}
-    eval $PACKAGE 2>&1 | tee -a ${log_build}
+    eval $lunch_command 2>&1 | tee -a ${log_build}
+    eval $PACKAGE_command 2>&1 | tee -a ${log_build}
 }
 
 # Sorting final zip ( commonized considering ota zips, .md5sum etc with similiar names  in diff roms)
