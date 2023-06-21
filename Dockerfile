@@ -15,7 +15,7 @@ RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zi
 RUN cd /tmp \
   && git clone https://github.com/akhilnarang/scripts \
   && cd scripts \
-  && bash /setup/android_build_env.sh
+  && bash setup/android_build_env.sh
 
 RUN mkdir -p /tmp/bin 
 
