@@ -91,6 +91,7 @@ build_configuration() {
     repo init -u $MANIFEST -b $BRANCH  2>&1 | tee ${log_build}
     repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j4 2>&1 | tee -a ${log_build}
     {
+    neofetch
     echo ""
     echo ""
     echo ""

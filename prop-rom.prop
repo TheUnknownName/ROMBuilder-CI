@@ -18,7 +18,7 @@ patch=git clone --depth 1 https://github.com/PixelExperience/vendor_pixel-framew
 name_MANIFEST=https://github.com/DerpFest-12/manifest.git
 name_BRANCH=12.1
 name_lunch_type=derp
-build_PACKAGE_command=mka derp
+build_PACKAGE_command=mka derp -j8
 name_BUILD_TYPE=user
 
 
