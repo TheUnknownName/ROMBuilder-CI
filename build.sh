@@ -88,7 +88,7 @@ time_sec() {
 # Repo sync and additional configurations
 build_configuration() {
     {
-    neofetch && cat < /etc/fstab
+    neofetch && echo && cat < /etc/fstab && echo && free -m
     echo ""
     echo ""
     echo ""
