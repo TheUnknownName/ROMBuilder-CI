@@ -87,10 +87,8 @@ time_sec() {
 
 # Repo sync and additional configurations
 build_configuration() {
-    eval $repo_init_command 2>&1 | tee ${log_build}
-    eval $repo_sync_command 2>&1 | tee -a ${log_build}
     {
-    neofetch
+    neofetch && cat < /etc/fstab
     echo ""
     echo ""
     echo ""
@@ -100,6 +98,8 @@ build_configuration() {
     echo ""
     echo ""
     }  2>&1 | tee -a ${log_build}
+    eval $repo_init_command 2>&1 | tee ${log_build}
+    eval $repo_sync_command 2>&1 | tee -a ${log_build}
 }
 
 time_diff() {
