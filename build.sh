@@ -88,7 +88,7 @@ time_sec() {
 
 # Repo sync and additional configurations
 build_configuration() {
-    repo init -u $MANIFEST -b $BRANCH  2>&1 | tee ${log_build}
+    repo init --depth 1 -u $MANIFEST -b $BRANCH  2>&1 | tee ${log_build}
     repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j8 2>&1 | tee -a ${log_build}
     {
     neofetch
