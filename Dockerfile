@@ -26,5 +26,5 @@ RUN sudo fallocate -l 40G /tmp/swapfile && sudo ls -lh /tmp/swapfile \
   && sudo chmod 600 /tmp/swapfile && sudo mkswap /tmp/swapfile && sudo swapon /tmp/swapfile \
   sudo swapon --show
 
-VOLUME ["/tmp/swapfile", "/tmp/rom"]
+VOLUME ["/tmp/bin", "/tmp/rom"]
 ENTRYPOINT ["/bin/bash"]
