@@ -26,5 +26,9 @@ RUN git clone https://github.com/ccache/ccache.git && cd ccache && git reset --h
     && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release .. \
     && make CFLAGS="-O3" && sudo make install
 
+RUN export CCACHE_DIR=/tmp/ccache && \
+	export CCACHE_EXEC=$(which ccache) && \
+	ccache -s
+
 VOLUME ["/tmp/bin", "/tmp/rom"]
 ENTRYPOINT ["/bin/bash"]
