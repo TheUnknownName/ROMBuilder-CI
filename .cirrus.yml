@@ -10,8 +10,8 @@ task:
   timeout_in: 300m
   container:
     dockerfile: Dockerfile
-    cpu: 24
-    memory: 120G
+    cpu: 16
+    memory: 64G
   
   build_script:
     - wget https://github.com/TheUnknownName/ROMBuilder-CI/raw/main/prop-rom.prop
