@@ -22,10 +22,6 @@ RUN mkdir -p /tmp/bin
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /tmp/bin/repo \
   && chmod a+x /tmp/bin/repo && export PATH="/tmp/bin:$PATH"
 
-RUN git clone https://github.com/ccache/ccache.git && cd ccache && git reset --hard 8c2da59 \
-    && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release .. \
-    && make CFLAGS="-O3" && sudo make install
-
 RUN git clone https://github.com/facebook/zstd.git && cd zstd && git reset --hard f349d18 \
     && mkdir build/cmake/build && cd build/cmake/build \
     && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release .. \
@@ -35,6 +31,9 @@ RUN git clone https://github.com/google/brotli.git \
     && cd brotli && mkdir out && cd out && ../configure-cmake --disable-debug \
     && make CFLAGS="-O3" && sudo make install
 
+RUN git clone https://github.com/ccache/ccache.git && cd ccache && git reset --hard 8c2da59 \
+    && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release .. \
+    && make CFLAGS="-O3" && sudo make install
 
 RUN export CCACHE_DIR=/tmp/ccache && \
 	export CCACHE_EXEC=$(which ccache) && \
