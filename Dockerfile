@@ -21,6 +21,10 @@ RUN mkdir -p /tmp/bin
 
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /tmp/bin/repo \
   && chmod a+x /tmp/bin/repo && export PATH="/tmp/bin:$PATH"
-  
+
+RUN git clone https://github.com/ccache/ccache.git && cd ccache && git reset --hard 8c2da59 \
+    && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release .. \
+    && make CFLAGS="-O3" && sudo make install
+
 VOLUME ["/tmp/bin", "/tmp/rom"]
 ENTRYPOINT ["/bin/bash"]

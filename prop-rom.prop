@@ -7,7 +7,7 @@ device_model=even
 name_vendor=realme
 
 #INFORMATION LINK DEVICE
-link_device= -b twelve-rui2 https://github.com/TheUnknownName/device_oplus_even.git
+link_device= -b lineage https://github.com/TheUnknownName/device_oplus_even.git
 link_vendor= -b twelve https://github.com/KharaMe-devices/vendor_oplus_even.git
 link_kernel= https://github.com/Kharame-Devices/kernel_realme_even.git
 
