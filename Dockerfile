@@ -22,7 +22,7 @@ RUN mkdir -p /tmp/bin
 RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /tmp/bin/repo \
   && chmod a+x /tmp/bin/repo && export PATH="/tmp/bin:$PATH"
   
-RUN sudo fallocate -l 40G /tmp/swapfile && sudo ls -lh /tmp/swapfile \
+RUN sudo fallocate -l 100G /tmp/swapfile && sudo ls -lh /tmp/swapfile \
   && sudo chmod 600 /tmp/swapfile && sudo mkswap /tmp/swapfile && sudo swapon /tmp/swapfile \
   sudo swapon --show
 
