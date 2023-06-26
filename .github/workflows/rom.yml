@@ -40,10 +40,11 @@ jobs:
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 20
+        swap-size-gb: 12
         
     - name: cloning repo
       run: |
+        neofetch
         git clone https://github.com/TheUnknownName/ROMBuilder-CI ../scripts
         mv ../scripts/build.sh .
         mv ../scripts/prop-rom.prop .
