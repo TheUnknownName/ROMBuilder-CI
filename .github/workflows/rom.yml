@@ -1,3 +1,5 @@
+name: ROM BUILDER
+
 jobs:
   build:
     if: github.event.repository.owner.id == github.event.sender.id
