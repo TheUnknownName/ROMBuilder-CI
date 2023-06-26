@@ -52,4 +52,4 @@ jobs:
     - name: building rom
       run:
         chmod a+x build.sh
-        bash build.sh prop-rom.prop
+        ./build.sh prop-rom.prop
