@@ -14,7 +14,8 @@ LDEVICE=$(grep link_device $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LVENDOR=$(grep link_vendor $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 LKERNEL=$(grep link_kernel $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
 get_patches=$(grep patch $NAME_SRC_FILE | cut -f2 -d"=" | tr -d '\r')
-echo $(pwd)/build_error
+mkdir /tmp/ci
+touch $log_build
 
 #BASE SETUP
 # Setup TG message and build posts
@@ -92,14 +93,14 @@ build_configuration() {
     echo ""
     echo ""
     echo ""
+    eval $repo_init_command
+    eval $repo_sync_command
     printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog $dir_work
     echo ""
     echo ""
     echo ""
     echo ""
     }  2>&1 | tee -a ${log_build}
-    eval $repo_init_command 2>&1 | tee ${log_build}
-    eval $repo_sync_command 2>&1 | tee -a ${log_build}
 }
 
 time_diff() {
