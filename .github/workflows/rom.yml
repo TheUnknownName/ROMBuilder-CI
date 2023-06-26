@@ -5,6 +5,16 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: show directory
-        run: |
-            echo "$PWD"
+    - name: Display Run Parameters
+      run: |
+        echo "::group::User Environment Variables"
+        echo "PWD: ${{ GITHUB_ACTION_PATH }}"
+        echo "::endgroup::"
+ 
+    # You might want to Checkout your repo first, but not mandatory
+    - name: Check Out
+      uses: actions/checkout@v3
+    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+      # That's it! Now use your normal steps
