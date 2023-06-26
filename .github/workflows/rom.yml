@@ -50,6 +50,6 @@ jobs:
         mv ../scripts/prop-rom.prop .
         
     - name: building rom
-      run:
-        chmod a+x build.sh
-        ./build.sh prop-rom.prop
+      run: |
+        chmod a+x build.sh;
+        bash build.sh prop-rom.prop
