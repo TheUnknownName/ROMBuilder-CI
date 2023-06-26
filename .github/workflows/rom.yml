@@ -36,4 +36,19 @@ jobs:
         curl https://storage.googleapis.com/git-repo-downloads/repo > /tmp/bin/repo  && chmod a+x /tmp/bin/repo && export PATH="/tmp/bin:$PATH"
         mkdir /tmp/rom
         cd /tmp/rom
-         
+
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 20
+        
+    - name: cloning repo
+      run: |
+        git clone https://github.com/TheUnknownName/ROMBuilder-CI ../scripts
+        mv ../scripts/build.sh .
+        mv ../scripts/prop-rom.prop .
+        
+    - name: building rom
+      run:
+        chmod a+x build.sh
+        bash build.sh prop-rom.prop
