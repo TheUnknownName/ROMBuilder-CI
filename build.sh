@@ -88,9 +88,7 @@ time_sec() {
 # Repo sync and additional configurations
 build_configuration() {
     {
-    neofetch && echo && sudo fallocate -l 60G /tmp/swapfile && sudo ls -lh /tmp/swapfile \
-  && sudo chmod 600 /tmp/swapfile && sudo mkswap /tmp/swapfile && sudo swapon /tmp/swapfile \
-  sudo swapon --show && cat < /etc/fstab && echo && free -m && echo && df -h
+    neofetch && df -h
     echo ""
     echo ""
     echo ""
