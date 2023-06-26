@@ -7,7 +7,9 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: docker
+    container:
+      image:Dockerfile
     permissions:
       contents: write
     steps:
@@ -15,6 +17,7 @@ jobs:
       run: |
         echo "::group::User Environment Variables"
         echo "PWD: $PWD"
+        ls .
         echo "::endgroup::"
  
     # You might want to Checkout your repo first, but not mandatory
@@ -24,8 +27,9 @@ jobs:
     - name: Cleanup
       uses: rokibhasansagar/slimhub_actions@main
       # That's it! Now use your normal steps
-    - name: Prepare the environment
+    - name: Prepare setup
       run: |
         sudo apt update
         sudo apt -y upgrade
         sudo apt -y install git wget curl
+         
